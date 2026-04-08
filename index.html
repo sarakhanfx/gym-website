@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IRONFORGE GYM — Forge Your Legend</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--red:#e63329;--red2:#ff4d43;--orange:#ff6b1a;
+--dark:#0a0a0a;--dark2:#111;--dark3:#1a1a1a;--dark4:#222;
+--text:#f0ede8;--text2:#a89f94;--text3:#6b6259;
+--gold:#c9a84c;--card:#161616;--border:rgba(230,51,41,0.2);
+--font:'Barlow Condensed',sans-serif;--body:'Barlow',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--text);font-family:var(--body);overflow-x:hidden}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--dark)}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px}
+
+/* ===== PUBLIC SITE ===== */
+#public-site{display:block}
+#admin-app{display:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,10,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(230,51,41,0.15);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--font);font-size:1.8rem;font-weight:900;letter-spacing:.05em;color:var(--text)}
+.nav-logo span{color:var(--red)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;transition:.2s;font-weight:500}
+.nav-links a:hover{color:var(--red)}
+.nav-right{display:flex;gap:.75rem;align-items:center}
+.btn-red{background:var(--red);color:#fff;border:none;padding:.55rem 1.3rem;font-family:var(--font);font-size:1rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:.2s;text-decoration:none;display:inline-block;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.btn-red:hover{background:var(--red2);transform:translateY(-1px)}
+.btn-outline-red{background:transparent;color:var(--red);border:1px solid var(--red);padding:.5rem 1.2rem;font-family:var(--font);font-size:.95rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:.2s;text-decoration:none;display:inline-block}
+.btn-outline-red:hover{background:rgba(230,51,41,0.1)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.hamburger span{width:22px;height:2px;background:var(--text)}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding-top:70px}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0a0a 40%,#1a0b0b 100%)}
+.hero-bg::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(230,51,41,0.02) 40px,rgba(230,51,41,0.02) 80px)}
+.hero-accent{position:absolute;right:0;top:0;bottom:0;width:45%;background:linear-gradient(135deg,transparent,rgba(230,51,41,0.08));clip-path:polygon(20% 0,100% 0,100% 100%,0% 100%)}
+.hero-content{position:relative;z-index:1;padding:0 4rem;max-width:700px}
+.hero-tag{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:1rem;font-weight:600}
+.hero-tag::before{content:'';width:20px;height:2px;background:var(--red)}
+h1.hero-h{font-family:var(--font);font-size:clamp(4rem,10vw,8rem);font-weight:900;line-height:.9;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:1rem}
+h1.hero-h span{display:block;-webkit-text-stroke:2px var(--red);color:transparent}
+.hero-sub{font-size:1rem;color:var(--text2);line-height:1.8;max-width:480px;margin-bottom:2.5rem;font-weight:300}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem}
+.hero-stats{display:flex;gap:3rem}
+.hstat-num{font-family:var(--font);font-size:2.4rem;font-weight:900;color:var(--text);line-height:1}
+.hstat-num sup{font-size:1rem;color:var(--red)}
+.hstat-label{font-size:.72rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-top:.2rem}
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--text3);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-6px)}}
+.scroll-line{width:1px;height:40px;background:linear-gradient(180deg,var(--red),transparent)}
+
+/* SECTION COMMON */
+section{padding:6rem 0}
+.container{max-width:1200px;margin:0 auto;padding:0 2rem}
+.sec-tag{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:600;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.sec-tag::before{content:'';width:16px;height:2px;background:var(--red)}
+.sec-title{font-family:var(--font);font-size:clamp(2.2rem,5vw,3.8rem);font-weight:900;text-transform:uppercase;line-height:.95;margin-bottom:.75rem}
+.sec-title span{color:var(--red)}
+.sec-sub{color:var(--text2);font-size:.92rem;line-height:1.8;max-width:520px;font-weight:300}
+
+/* PLANS */
+#plans{background:var(--dark2)}
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.plan-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:2.5rem 2rem;position:relative;transition:.3s;overflow:hidden}
+.plan-card.featured{border-color:var(--red);background:linear-gradient(135deg,var(--card),#1f0e0e)}
+.plan-card.featured::before{content:'MOST POPULAR';position:absolute;top:1rem;right:-2rem;background:var(--red);color:#fff;font-family:var(--font);font-size:.7rem;font-weight:800;letter-spacing:.12em;padding:.3rem 3rem;transform:rotate(45deg) translateX(1rem)}
+.plan-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(230,51,41,0.15)}
+.plan-name{font-family:var(--font);font-size:1rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);margin-bottom:.5rem}
+.plan-price{font-family:var(--font);font-size:3.5rem;font-weight:900;color:var(--text);line-height:1}
+.plan-price sup{font-size:1.2rem;color:var(--red)}
+.plan-price sub{font-size:.9rem;color:var(--text3);font-weight:400}
+.plan-features{list-style:none;margin:1.5rem 0 2rem}
+.plan-features li{font-size:.88rem;color:var(--text2);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:.5rem}
+.plan-features li::before{content:'✓';color:var(--red);font-weight:700;flex-shrink:0}
+
+/* CLASSES */
+#classes{background:var(--dark)}
+.classes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.class-card{background:var(--card);border:1px solid rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;transition:.3s;cursor:pointer}
+.class-card:hover{border-color:rgba(230,51,41,0.3);transform:translateY(-4px)}
+.class-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;overflow:hidden}
+.class-body{padding:1.25rem}
+.class-name{font-family:var(--font);font-size:1.3rem;font-weight:800;text-transform:uppercase;margin-bottom:.4rem}
+.class-meta{display:flex;gap:1rem;font-size:.78rem;color:var(--text3);margin-bottom:.75rem}
+.class-meta span{display:flex;align-items:center;gap:.25rem}
+.class-desc{font-size:.83rem;color:var(--text2);line-height:1.6}
+
+/* SCHEDULE */
+#schedule{background:var(--dark2)}
+.schedule-table{width:100%;border-collapse:collapse;margin-top:2rem;font-size:.85rem}
+.schedule-table th{background:var(--red);color:#fff;font-family:var(--font);font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:.75rem 1rem;text-align:left}
+.schedule-table td{padding:.75rem 1rem;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--text2);vertical-align:top}
+.schedule-table tr:hover td{background:rgba(230,51,41,0.04)}
+.time-badge{background:rgba(230,51,41,0.12);color:var(--red);padding:.2rem .5rem;border-radius:3px;font-family:var(--font);font-weight:700;font-size:.8rem;white-space:nowrap;display:inline-block;margin-bottom:.2rem}
+.class-badge{background:rgba(255,255,255,0.06);color:var(--text);padding:.15rem .5rem;border-radius:3px;font-size:.75rem;display:inline-block;margin:.1rem}
+.trainer-badge{color:var(--gold);font-size:.8rem}
+
+/* TRAINERS */
+#trainers{background:var(--dark)}
+.trainers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem}
+.trainer-card{background:var(--card);border:1px solid rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;transition:.3s;text-align:center}
+.trainer-card:hover{border-color:rgba(230,51,41,0.3);transform:translateY(-4px)}
+.trainer-img{width:100%;height:200px;background:linear-gradient(135deg,#1a1a1a,#2a1a1a);display:flex;align-items:center;justify-content:center;font-size:4rem;color:rgba(255,255,255,0.15);position:relative;overflow:hidden}
+.trainer-img-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,0.7),transparent 50%)}
+.trainer-body{padding:1.25rem}
+.trainer-name{font-family:var(--font);font-size:1.2rem;font-weight:800;text-transform:uppercase;margin-bottom:.25rem}
+.trainer-spec{font-size:.78rem;color:var(--red);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem}
+.trainer-bio{font-size:.82rem;color:var(--text3);line-height:1.6}
+
+/* TIPS */
+#tips{background:var(--dark2)}
+.tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.tip-card{background:var(--card);border:1px solid rgba(255,255,255,0.05);border-radius:4px;padding:2rem;transition:.3s}
+.tip-card:hover{border-color:rgba(230,51,41,0.25)}
+.tip-icon{font-size:2rem;margin-bottom:1rem}
+.tip-title{font-family:var(--font);font-size:1.2rem;font-weight:800;text-transform:uppercase;margin-bottom:.75rem}
+.tip-text{font-size:.85rem;color:var(--text2);line-height:1.8}
+
+/* GALLERY */
+#gallery{background:var(--dark)}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:3rem}
+.gallery-item{background:var(--card);border-radius:4px;overflow:hidden;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;position:relative;border:1px solid rgba(255,255,255,0.05);transition:.3s;cursor:pointer}
+.gallery-item:hover{border-color:var(--red);transform:scale(1.02)}
+.gallery-item.wide{grid-column:span 2;aspect-ratio:16/9}
+.gallery-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:rgba(255,255,255,0.15);font-size:.75rem;height:100%;width:100%}
+.gallery-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg,rgba(0,0,0,0.8),transparent);padding:.75rem;font-size:.78rem;color:var(--text2);text-align:center;font-family:var(--font);font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+
+/* ENROLLMENT FORM */
+#enroll{background:linear-gradient(135deg,var(--dark2),#150808)}
+.enroll-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:start;margin-top:3rem}
+.enroll-info h3{font-family:var(--font);font-size:2rem;font-weight:900;text-transform:uppercase;margin-bottom:1rem}
+.enroll-info p{color:var(--text2);font-size:.9rem;line-height:1.8;margin-bottom:2rem}
+.enroll-perks{list-style:none}
+.enroll-perks li{display:flex;align-items:center;gap:.75rem;padding:.6rem 0;font-size:.88rem;color:var(--text2);border-bottom:1px solid rgba(255,255,255,0.05)}
+.enroll-perks li::before{content:'→';color:var(--red);font-weight:700}
+.enroll-form{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2.5rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{margin-bottom:1.25rem}
+.form-label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:.4rem;font-weight:600}
+.form-input,.form-select,.form-textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:3px;padding:.7rem 1rem;color:var(--text);font-family:var(--body);font-size:.9rem;outline:none;transition:.3s;-webkit-appearance:none}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--red);background:rgba(230,51,41,0.05)}
+.form-select option{background:var(--dark3)}
+.form-success-msg{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;padding:1rem;border-radius:3px;font-size:.88rem;text-align:center;display:none;margin-top:1rem}
+
+/* CONTACT / FOOTER */
+footer{background:#080808;border-top:1px solid rgba(255,255,255,0.05);padding:3rem 0 1.5rem}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem}
+.footer-brand .nav-logo{display:block;margin-bottom:.75rem;font-size:1.6rem}
+.footer-tagline{font-size:.83rem;color:var(--text3);line-height:1.7}
+.footer-heading{font-family:var(--font);font-size:.85rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--text);margin-bottom:1rem}
+.footer-links{list-style:none}
+.footer-links li{margin-bottom:.45rem}
+.footer-links a{color:var(--text3);text-decoration:none;font-size:.83rem;transition:.2s}
+.footer-links a:hover{color:var(--red)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:.78rem;color:var(--text3)}
+.footer-admin-btn{background:none;border:1px solid rgba(255,255,255,0.08);color:var(--text3);padding:.4rem .9rem;font-size:.75rem;cursor:pointer;border-radius:3px;font-family:var(--body);transition:.2s}
+.footer-admin-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* ===== ADMIN LOGIN ===== */
+#admin-login-screen{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.97);align-items:center;justify-content:center}
+#admin-login-screen.show{display:flex}
+.login-wrap{background:var(--dark3);border:1px solid var(--border);border-radius:6px;padding:3rem;width:400px;max-width:92vw}
+.login-logo{font-family:var(--font);font-size:2rem;font-weight:900;text-transform:uppercase;margin-bottom:.25rem}
+.login-logo span{color:var(--red)}
+.login-sub{font-size:.82rem;color:var(--text3);margin-bottom:2rem}
+.login-error{background:rgba(230,51,41,0.1);border:1px solid rgba(230,51,41,0.3);color:#ff8080;padding:.75rem;border-radius:3px;font-size:.83rem;margin-bottom:1rem;display:none}
+.login-hint{font-size:.75rem;color:var(--text3);text-align:center;margin-top:.75rem}
+.login-close{float:right;background:none;border:none;color:var(--text3);font-size:1.2rem;cursor:pointer;margin-top:-2rem}
+
+/* ===== ADMIN PANEL ===== */
+#admin-app{position:fixed;inset:0;z-index:9998;background:var(--dark);display:none;flex-direction:column}
+#admin-app.show{display:flex}
+.admin-topbar{background:var(--dark3);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.admin-topbar-logo{font-family:var(--font);font-size:1.3rem;font-weight:900;text-transform:uppercase}
+.admin-topbar-logo span{color:var(--red)}
+.admin-topbar-right{display:flex;align-items:center;gap:1rem}
+.admin-logout{background:none;border:1px solid rgba(255,255,255,0.1);color:var(--text2);padding:.35rem .85rem;font-size:.78rem;cursor:pointer;border-radius:3px;font-family:var(--body);transition:.2s}
+.admin-logout:hover{border-color:var(--red);color:var(--red)}
+.admin-body{display:flex;flex:1;overflow:hidden}
+.admin-sidebar{width:220px;flex-shrink:0;background:var(--dark2);border-right:1px solid rgba(255,255,255,0.05);padding:.75rem;overflow-y:auto}
+.admin-nav-group{margin-bottom:1.5rem}
+.admin-nav-group-title{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);padding:.4rem .75rem;margin-bottom:.25rem}
+.admin-nav-item{display:flex;align-items:center;gap:.6rem;padding:.6rem .75rem;border-radius:3px;cursor:pointer;font-size:.83rem;color:var(--text3);transition:.2s;user-select:none}
+.admin-nav-item:hover{background:rgba(255,255,255,0.04);color:var(--text)}
+.admin-nav-item.active{background:rgba(230,51,41,0.12);color:var(--red)}
+.admin-nav-item .ni{font-size:.9rem;width:18px;text-align:center}
+.admin-main{flex:1;overflow-y:auto;padding:2rem}
+.admin-section{display:none}
+.admin-section.active{display:block}
+.admin-page-title{font-family:var(--font);font-size:1.8rem;font-weight:900;text-transform:uppercase;margin-bottom:.25rem}
+.admin-page-sub{color:var(--text3);font-size:.83rem;margin-bottom:2rem}
+
+/* ADMIN STATS */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:2rem}
+.stat-box{background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:1.25rem;text-align:center;transition:.3s}
+.stat-box:hover{border-color:var(--border)}
+.stat-box-num{font-family:var(--font);font-size:2.2rem;font-weight:900;color:var(--text)}
+.stat-box-label{font-size:.72rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-top:.2rem}
+.stat-box.alert-box{border-color:rgba(255,165,0,0.3);background:rgba(255,165,0,0.04)}
+.stat-box.alert-box .stat-box-num{color:#ffa500}
+
+/* ADMIN TABLE */
+.admin-table-wrap{background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;margin-bottom:2rem}
+.admin-table-header{padding:1rem 1.5rem;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between}
+.admin-table-title{font-family:var(--font);font-size:1rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.search-input{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:3px;padding:.4rem .75rem;color:var(--text);font-size:.82rem;outline:none;font-family:var(--body);width:200px}
+.search-input:focus{border-color:var(--red)}
+table.admin-tbl{width:100%;border-collapse:collapse;font-size:.83rem}
+table.admin-tbl th{background:rgba(255,255,255,0.03);color:var(--text3);font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.65rem 1rem;text-align:left;border-bottom:1px solid rgba(255,255,255,0.05)}
+table.admin-tbl td{padding:.65rem 1rem;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text2);vertical-align:middle}
+table.admin-tbl tr:hover td{background:rgba(255,255,255,0.02)}
+table.admin-tbl tr:last-child td{border-bottom:none}
+.badge{display:inline-block;padding:.2rem .55rem;border-radius:3px;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.badge-green{background:rgba(16,185,129,0.12);color:#6ee7b7}
+.badge-red{background:rgba(230,51,41,0.12);color:#ff8080}
+.badge-orange{background:rgba(255,165,0,0.12);color:#ffc966}
+.badge-blue{background:rgba(59,130,246,0.12);color:#93c5fd}
+.badge-gold{background:rgba(201,168,76,0.12);color:var(--gold)}
+.tbl-actions{display:flex;gap:.4rem}
+.btn-tbl{border:none;padding:.3rem .65rem;border-radius:3px;font-size:.72rem;font-weight:600;cursor:pointer;font-family:var(--body);transition:.2s}
+.btn-tbl-edit{background:rgba(59,130,246,0.15);color:#93c5fd}
+.btn-tbl-edit:hover{background:rgba(59,130,246,0.25)}
+.btn-tbl-del{background:rgba(230,51,41,0.12);color:#ff8080}
+.btn-tbl-del:hover{background:rgba(230,51,41,0.25)}
+.btn-tbl-view{background:rgba(201,168,76,0.12);color:var(--gold)}
+
+/* ADMIN FORM */
+.admin-form-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:2rem;margin-bottom:2rem}
+.admin-form-card h4{font-family:var(--font);font-size:1rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.5rem;color:var(--text);border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:.75rem}
+.admin-form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.admin-form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.af-group{margin-bottom:1rem}
+.af-label{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:.35rem;font-weight:600}
+.af-input,.af-select,.af-textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:3px;padding:.6rem .85rem;color:var(--text);font-family:var(--body);font-size:.85rem;outline:none;transition:.3s}
+.af-input:focus,.af-select:focus,.af-textarea:focus{border-color:var(--red)}
+.af-select option{background:var(--dark3)}
+.af-textarea{resize:vertical;min-height:80px}
+.btn-save{background:var(--red);color:#fff;border:none;padding:.6rem 1.5rem;font-family:var(--font);font-size:.95rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:.2s}
+.btn-save:hover{background:var(--red2)}
+.btn-secondary{background:rgba(255,255,255,0.06);color:var(--text2);border:1px solid rgba(255,255,255,0.1);padding:.55rem 1.2rem;font-family:var(--font);font-size:.9rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:.2s}
+.btn-secondary:hover{background:rgba(255,255,255,0.1)}
+
+/* EXPIRY ALERTS */
+.alert-card{background:rgba(255,165,0,0.06);border:1px solid rgba(255,165,0,0.25);border-radius:4px;padding:1rem 1.5rem;margin-bottom:.75rem;display:flex;align-items:center;justify-content:space-between}
+.alert-info{display:flex;align-items:center;gap:1rem}
+.alert-icon{font-size:1.2rem}
+.alert-name{font-weight:600;font-size:.88rem;margin-bottom:.15rem}
+.alert-detail{font-size:.78rem;color:var(--text3)}
+.alert-days{font-family:var(--font);font-size:1.2rem;font-weight:900;color:#ffa500}
+.alert-days span{font-size:.72rem;color:var(--text3);font-weight:400;font-family:var(--body)}
+
+/* REVENUE */
+.rev-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.rev-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:1.5rem;text-align:center}
+.rev-num{font-family:var(--font);font-size:2rem;font-weight:900;color:var(--text)}
+.rev-num span{font-size:1rem;color:var(--red)}
+.rev-label{font-size:.72rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-top:.25rem}
+.rev-change{font-size:.78rem;color:#6ee7b7;margin-top:.3rem}
+.chart-bar-wrap{background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:1.5rem}
+.chart-bars{display:flex;align-items:flex-end;gap:.5rem;height:140px;margin-top:1rem}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.bar-fill{background:linear-gradient(180deg,var(--red),var(--orange));border-radius:2px 2px 0 0;width:100%;transition:height .6s ease;min-height:4px}
+.bar-label{font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.bar-val{font-size:.7rem;color:var(--text2);font-family:var(--font);font-weight:700}
+
+/* EQUIPMENT */
+.equip-status{display:flex;gap:.75rem;margin-bottom:1.5rem}
+.equip-legend{display:flex;align-items:center;gap:.35rem;font-size:.78rem;color:var(--text3)}
+.equip-dot{width:8px;height:8px;border-radius:50%}
+
+/* MOBILE */
+@media(max-width:900px){
+.hamburger{display:flex}
+.nav-links{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(10,10,10,0.98);flex-direction:column;padding:1.5rem;gap:1.25rem;backdrop-filter:blur(20px)}
+.nav-links.open{display:flex}
+.plans-grid,.classes-grid,.trainers-grid{grid-template-columns:1fr 1fr}
+.tips-grid{grid-template-columns:1fr}
+.gallery-grid{grid-template-columns:1fr 1fr}
+.gallery-item.wide{grid-column:span 1;aspect-ratio:3/4}
+.enroll-grid{grid-template-columns:1fr}
+.footer-grid{grid-template-columns:1fr 1fr}
+.stats-row{grid-template-columns:repeat(3,1fr)}
+.admin-sidebar{width:180px}
+}
+@media(max-width:600px){
+.hero-content{padding:0 1.5rem}
+.plans-grid,.classes-grid,.trainers-grid,.footer-grid{grid-template-columns:1fr}
+.stats-row{grid-template-columns:1fr 1fr}
+.rev-cards{grid-template-columns:1fr 1fr}
+.form-row,.admin-form-row,.admin-form-row-3{grid-template-columns:1fr}
+.admin-sidebar{display:none}
+}
+
+/* FADE IN */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- ===== ADMIN LOGIN ===== -->
+<div id="admin-login-screen">
+  <div class="login-wrap">
+    <button class="login-close" onclick="closeLogin()">✕</button>
+    <div class="login-logo">IRON<span>FORGE</span></div>
+    <div class="login-sub">Admin Panel — Secure Login</div>
+    <div class="login-error" id="login-err">Wrong credentials! Use: admin / gym123</div>
+    <div class="form-group"><label class="form-label">Username</label><input type="text" class="form-input" id="admin-user" placeholder="admin"></div>
+    <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" id="admin-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doAdminLogin()"></div>
+    <button class="btn-red" style="width:100%;margin-top:.5rem;clip-path:none;border-radius:3px" onclick="doAdminLogin()">LOGIN →</button>
+    <div class="login-hint">Default: admin / gym123</div>
+  </div>
+</div>
+
+<!-- ===== ADMIN PANEL ===== -->
+<div id="admin-app">
+  <div class="admin-topbar">
+    <div class="admin-topbar-logo">IRON<span>FORGE</span> <span style="color:var(--text3);font-size:.8rem;font-weight:400;text-transform:none;font-family:var(--body)">Admin Dashboard</span></div>
+    <div class="admin-topbar-right">
+      <span id="admin-date" style="font-size:.78rem;color:var(--text3)"></span>
+      <button class="admin-logout" onclick="backToSite()">← Back to Site</button>
+      <button class="admin-logout" onclick="doLogout()">Logout</button>
+    </div>
+  </div>
+  <div class="admin-body">
+    <!-- SIDEBAR -->
+    <div class="admin-sidebar">
+      <div class="admin-nav-group">
+        <div class="admin-nav-group-title">Overview</div>
+        <div class="admin-nav-item active" onclick="showTab('dashboard',this)"><span class="ni">📊</span>Dashboard</div>
+        <div class="admin-nav-item" onclick="showTab('alerts',this)"><span class="ni">🔔</span>Expiry Alerts</div>
+        <div class="admin-nav-item" onclick="showTab('revenue',this)"><span class="ni">💰</span>Revenue</div>
+      </div>
+      <div class="admin-nav-group">
+        <div class="admin-nav-group-title">Members</div>
+        <div class="admin-nav-item" onclick="showTab('members',this)"><span class="ni">👥</span>Members</div>
+        <div class="admin-nav-item" onclick="showTab('enroll',this)"><span class="ni">➕</span>Enroll Member</div>
+        <div class="admin-nav-item" onclick="showTab('fees',this)"><span class="ni">💳</span>Fee Tracker</div>
+      </div>
+      <div class="admin-nav-group">
+        <div class="admin-nav-group-title">Classes & Staff</div>
+        <div class="admin-nav-item" onclick="showTab('trainers',this)"><span class="ni">🏋️</span>Trainers</div>
+        <div class="admin-nav-item" onclick="showTab('schedule-admin',this)"><span class="ni">📅</span>Class Schedule</div>
+        <div class="admin-nav-item" onclick="showTab('diet',this)"><span class="ni">🥗</span>Diet Plans</div>
+      </div>
+      <div class="admin-nav-group">
+        <div class="admin-nav-group-title">Gym</div>
+        <div class="admin-nav-item" onclick="showTab('equipment',this)"><span class="ni">⚙️</span>Equipment</div>
+        <div class="admin-nav-item" onclick="showTab('bookings',this)"><span class="ni">📋</span>Bookings</div>
+      </div>
+    </div>
+    <!-- MAIN CONTENT -->
+    <div class="admin-main" id="admin-main">
+
+      <!-- DASHBOARD -->
+      <div class="admin-section active" id="tab-dashboard">
+        <div class="admin-page-title">Dashboard</div>
+        <div class="admin-page-sub">Welcome back! Here's today's gym overview.</div>
+        <div class="stats-row">
+          <div class="stat-box"><div class="stat-box-num" id="s-total">0</div><div class="stat-box-label">Total Members</div></div>
+          <div class="stat-box"><div class="stat-box-num" id="s-active">0</div><div class="stat-box-label">Active</div></div>
+          <div class="stat-box alert-box"><div class="stat-box-num" id="s-expiring">0</div><div class="stat-box-label">Expiring Soon</div></div>
+          <div class="stat-box"><div class="stat-box-num" id="s-trainers">0</div><div class="stat-box-label">Trainers</div></div>
+          <div class="stat-box"><div class="stat-box-num" id="s-revenue">₨0</div><div class="stat-box-label">This Month</div></div>
+        </div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-header"><span class="admin-table-title">Recent Enrollments</span></div>
+          <table class="admin-tbl">
+            <thead><tr><th>Name</th><th>Plan</th><th>Join Date</th><th>Expiry</th><th>Status</th><th>Fee</th></tr></thead>
+            <tbody id="dashboard-recent"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- EXPIRY ALERTS -->
+      <div class="admin-section" id="tab-alerts">
+        <div class="admin-page-title">Expiry Alerts</div>
+        <div class="admin-page-sub">Members whose membership expires within 7 days.</div>
+        <div id="alerts-list"></div>
+      </div>
+
+      <!-- REVENUE -->
+      <div class="admin-section" id="tab-revenue">
+        <div class="admin-page-title">Revenue Reports</div>
+        <div class="admin-page-sub">Financial overview and monthly revenue tracking.</div>
+        <div class="rev-cards">
+          <div class="rev-card"><div class="rev-num" id="rev-today"><span>₨</span>0</div><div class="rev-label">Today</div></div>
+          <div class="rev-card"><div class="rev-num" id="rev-month"><span>₨</span>0</div><div class="rev-label">This Month</div><div class="rev-change" id="rev-change">+0%</div></div>
+          <div class="rev-card"><div class="rev-num" id="rev-total"><span>₨</span>0</div><div class="rev-label">Total Revenue</div></div>
+          <div class="rev-card"><div class="rev-num" id="rev-pending"><span>₨</span>0</div><div class="rev-label">Pending Fees</div></div>
+        </div>
+        <div class="chart-bar-wrap">
+          <div style="font-family:var(--font);font-size:.9rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em">Monthly Revenue (PKR)</div>
+          <div class="chart-bars" id="rev-chart"></div>
+        </div>
+        <div style="margin-top:2rem">
+          <div class="admin-table-wrap">
+            <div class="admin-table-header"><span class="admin-table-title">Fee Collection Log</span></div>
+            <table class="admin-tbl"><thead><tr><th>Member</th><th>Plan</th><th>Amount</th><th>Date</th><th>Method</th><th>Status</th></tr></thead>
+            <tbody id="revenue-log"></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEMBERS LIST -->
+      <div class="admin-section" id="tab-members">
+        <div class="admin-page-title">Members</div>
+        <div class="admin-page-sub">Manage all gym memberships.</div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-header">
+            <span class="admin-table-title">All Members</span>
+            <input type="text" class="search-input" placeholder="Search member..." oninput="searchMembers(this.value)">
+          </div>
+          <table class="admin-tbl"><thead><tr><th>#</th><th>Name</th><th>Phone</th><th>Plan</th><th>Start</th><th>Expiry</th><th>Fee Status</th><th>Actions</th></tr></thead>
+          <tbody id="members-tbody"></tbody></table>
+        </div>
+      </div>
+
+      <!-- ENROLL -->
+      <div class="admin-section" id="tab-enroll">
+        <div class="admin-page-title">Enroll New Member</div>
+        <div class="admin-page-sub">Add a new member to the gym database.</div>
+        <div class="admin-form-card">
+          <h4>Member Information</h4>
+          <div class="admin-form-row">
+            <div class="af-group"><label class="af-label">Full Name</label><input type="text" class="af-input" id="m-name" placeholder="Ali Hassan"></div>
+            <div class="af-group"><label class="af-label">Phone</label><input type="text" class="af-input" id="m-phone" placeholder="+92 300 1234567"></div>
+          </div>
+          <div class="admin-form-row">
+            <div class="af-group"><label class="af-label">Email</label><input type="email" class="af-input" id="m-email" placeholder="ali@email.com"></div>
+            <div class="af-group"><label class="af-label">Date of Birth</label><input type="date" class="af-input" id="m-dob"></div>
+          </div>
+          <div class="admin-form-row">
+            <div class="af-group"><label class="af-label">Gender</label>
+              <select class="af-select" id="m-gender"><option>Male</option><option>Female</option><option>Other</option></select>
+            </div>
+            <div class="af-group"><label class="af-label">Membership Plan</label>
+              <select class="af-select" id="m-plan">
+                <option value="basic">Basic — ₨2,500/mo</option>
+                <option value="standard">Standard — ₨4,000/mo</option>
+                <option value="premium">Premium — ₨7,000/mo</option>
+                <option value="annual">Annual VIP — ₨60,000/yr</option>
+              </select>
+            </div>
+          </div>
+          <div class="admin-form-row">
+            <div class="af-group"><label class="af-label">Start Date</label><input type="date" class="af-input" id="m-start"></div>
+            <div class="af-group"><label class="af-label">Assign Trainer</label>
+              <select class="af-select" id="m-trainer"><option value="">No Trainer</option></select>
+            </div>
+          </div>
+          <div class="af-group"><label class="af-label">Health Notes / Goals</label><textarea class="af-textarea" id="m-notes" placeholder="Any health conditions, fitness goals..."></textarea></div>
+          <div style="display:flex;gap:1rem;margin-top:.5rem">
+            <button class="btn-save" onclick="enrollMember()">ENROLL MEMBER →</button>
+            <button class="btn-secondary" onclick="clearEnrollForm()">CLEAR</button>
+          </div>
+          <div class="form-success-msg" id="enroll-success">✅ Member enrolled successfully!</div>
+        </div>
+      </div>
+
+      <!-- FEE TRACKER -->
+      <div class="admin-section" id="tab-fees">
+        <div class="admin-page-title">Fee Tracker</div>
+        <div class="admin-page-sub">Track and collect membership fees.</div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-header"><span class="admin-table-title">Fee Status</span>
+            <select class="search-input" onchange="filterFees(this.value)" style="width:160px">
+              <option value="all">All Members</option>
+              <option value="paid">Paid</option>
+              <option value="pending">Pending</option>
+              <option value="overdue">Overdue</option>
+            </select>
+          </div>
+          <table class="admin-tbl"><thead><tr><th>Member</th><th>Plan</th><th>Amount</th><th>Due Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="fees-tbody"></tbody></table>
+        </div>
+      </div>
+
+      <!-- TRAINERS ADMIN -->
+      <div class="admin-section" id="tab-trainers">
+        <div class="admin-page-title">Trainer Management</div>
+        <div class="admin-page-sub">Add, edit, and manage gym trainers.</div>
+        <div class="admin-form-card">
+          <h4>Add New Trainer</h4>
+          <div class="admin-form-row">
+            <div class="af-group"><label class="af-label">Full Name</label><input type="text" class="af-input" id="tr-name" placeholder="Ahmed Khan"></div>
+            <div class="af-group"><label class="af-label">Specialization</label><input type="text" class="af-input" id="tr-spec" placeholder="Strength & Conditioning"></div>
+          </div>
+          <div class="admin-form-row">
+            <div class="af-group"><label class="af-label">Phone</label><input type="text" class="af-input" id="tr-phone" placeholder="+92 300..."></div>
+            <div class="af-group"><label class="af-label">Experience (years)</label><input type="number" class="af-input" id="tr-exp" placeholder="5" min="0"></div>
+          </div>
+          <div class="af-group"><label class="af-label">Bio</label><textarea class="af-textarea" id="tr-bio" placeholder="Brief trainer biography..."></textarea></div>
+          <div style="display:flex;gap:1rem;margin-top:.5rem">
+            <button class="btn-save" onclick="addTrainer()">ADD TRAINER</button>
+          </div>
+        </div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-header"><span class="admin-table-title">Trainers List</span></div>
+          <table class="admin-tbl"><thead><tr><th>#</th><th>Name</th><th>Specialization</th><th>Phone</th><th>Exp</th><th>Members</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="trainers-tbody"></tbody></table>
+        </div>
+      </div>
+
+      <!-- SCHEDULE ADMIN -->
+      <div class="admin-section" id="tab-schedule-admin">
+        <div class="admin-page-title">Class Schedule</div>
+        <div class="admin-page-sub">Manage weekly class timetable.</div>
+        <div class="admin-form-card">
+          <h4>Add / Edit Class</h4>
+          <div class="admin-form-row-3">
+            <div class="af-group"><label class="af-label">Class Name</label><input type="text" class="af-input" id="sc-name" placeholder="HIIT Blast"></div>
+            <div class="af-group"><label class="af-label">Day</label>
+              <select class="af-select" id="sc-day"><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option></select>
+            </div>
+            <div class="af-group"><label class="af-label">Time</label><input type="time" class="af-input" id="sc-time"></div>
+          </div>
+          <div class="admin-form-row-3">
+            <div class="af-group"><label class="af-label">Duration (min)</label><input type="number" class="af-input" id="sc-duration" placeholder="60" min="15"></div>
+            <div class="af-group"><label class="af-label">Capacity</label><input type="number" class="af-input" id="sc-cap" placeholder="20" min="1"></div>
+            <div class="af-group"><label class="af-label">Trainer</label>
+              <select class="af-select" id="sc-trainer"><option value="">Assign Trainer</option></select>
+            </div>
+          </div>
+          <button class="btn-save" onclick="addSchedule()">ADD CLASS</button>
+        </div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-header"><span class="admin-table-title">Weekly Schedule</span></div>
+          <table class="admin-tbl"><thead><tr><th>Day</th><th>Time</th><th>Class</th><th>Trainer</th><th>Duration</th><th>Capacity</th><th>Booked</th><th>Actions</th></tr></thead>
+          <tbody id="schedule-tbody"></tbody></table>
+        </div>
+      </div>
+
+      <!-- DIET PLANS -->
+      <div class="admin-section" id="tab-diet">
+        <div class="admin-page-title">Diet Plan Management</div>
+        <div class="admin-page-sub">Create and assign diet plans to members.</div>
+        <div class="admin-form-card">
+          <h4>Create Diet Plan</h4>
+          <div class="admin-form-row">
+            <div class="af-group"><label class="af-label">Plan Name</label><input type="text" class="af-input" id="dp-name" placeholder="Weight Loss Plan A"></div>
+            <div class="af-group"><label class="af-label">Goal</label>
+              <select class="af-select" id="dp-goal"><option>Weight Loss</option><option>Muscle Gain</option><option>Maintenance</option><option>Endurance</option></select>
+            </div>
+          </div>
+          <div class="admin-form-row">
+            <div class="af-group"><label class="af-label">Daily Calories</label><input type="number" class="af-input" id="dp-cal" placeholder="1800"></div>
+            <div class="af-group"><label class="af-label">Protein (g/day)</label><input type="number" class="af-input" id="dp-prot" placeholder="150"></div>
+          </div>
+          <div class="af-group"><label class="af-label">Meal Plan Details</label><textarea class="af-textarea" id="dp-details" placeholder="Breakfast: Oats + eggs...&#10;Lunch: Chicken + rice...&#10;Dinner: Fish + vegetables..."></textarea></div>
+          <div class="af-group"><label class="af-label">Assign to Member</label>
+            <select class="af-select" id="dp-member"><option value="">Select Member (optional)</option></select>
+          </div>
+          <button class="btn-save" onclick="addDietPlan()">SAVE PLAN</button>
+        </div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-header"><span class="admin-table-title">Diet Plans</span></div>
+          <table class="admin-tbl"><thead><tr><th>#</th><th>Plan Name</th><th>Goal</th><th>Calories</th><th>Protein</th><th>Assigned To</th><th>Actions</th></tr></thead>
+          <tbody id="diet-tbody"></tbody></table>
+        </div>
+      </div>
+
+      <!-- EQUIPMENT -->
+      <div class="admin-section" id="tab-equipment">
+        <div class="admin-page-title">Equipment Log</div>
+        <div class="admin-page-sub">Track gym equipment condition and maintenance.</div>
+        <div class="admin-form-card">
+          <h4>Add Equipment</h4>
+          <div class="admin-form-row-3">
+            <div class="af-group"><label class="af-label">Equipment Name</label><input type="text" class="af-input" id="eq-name" placeholder="Treadmill"></div>
+            <div class="af-group"><label class="af-label">Quantity</label><input type="number" class="af-input" id="eq-qty" placeholder="5" min="1"></div>
+            <div class="af-group"><label class="af-label">Status</label>
+              <select class="af-select" id="eq-status"><option>Working</option><option>Maintenance</option><option>Out of Order</option></select>
+            </div>
+          </div>
+          <div class="admin-form-row">
+            <div class="af-group"><label class="af-label">Purchase Date</label><input type="date" class="af-input" id="eq-date"></div>
+            <div class="af-group"><label class="af-label">Next Maintenance</label><input type="date" class="af-input" id="eq-maint"></div>
+          </div>
+          <div class="af-group"><label class="af-label">Notes</label><input type="text" class="af-input" id="eq-notes" placeholder="Any notes..."></div>
+          <button class="btn-save" onclick="addEquipment()">ADD EQUIPMENT</button>
+        </div>
+        <div class="equip-status">
+          <div class="equip-legend"><div class="equip-dot" style="background:#6ee7b7"></div>Working</div>
+          <div class="equip-legend"><div class="equip-dot" style="background:#ffc966"></div>Maintenance</div>
+          <div class="equip-legend"><div class="equip-dot" style="background:#ff8080"></div>Out of Order</div>
+        </div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-header"><span class="admin-table-title">Equipment Inventory</span></div>
+          <table class="admin-tbl"><thead><tr><th>#</th><th>Equipment</th><th>Qty</th><th>Status</th><th>Purchase Date</th><th>Next Maintenance</th><th>Notes</th><th>Actions</th></tr></thead>
+          <tbody id="equip-tbody"></tbody></table>
+        </div>
+      </div>
+
+      <!-- BOOKINGS -->
+      <div class="admin-section" id="tab-bookings">
+        <div class="admin-page-title">Class Bookings</div>
+        <div class="admin-page-sub">Online class bookings from the public website.</div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-header"><span class="admin-table-title">All Bookings</span></div>
+          <table class="admin-tbl"><thead><tr><th>#</th><th>Member</th><th>Class</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="bookings-tbody"></tbody></table>
+        </div>
+      </div>
+
+    </div><!-- /admin-main -->
+  </div><!-- /admin-body -->
+</div><!-- /admin-app -->
+
+<!-- ===== PUBLIC WEBSITE ===== -->
+<div id="public-site">
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-logo">IRON<span>FORGE</span></div>
+  <ul class="nav-links" id="nav-menu">
+    <li><a href="#plans">Plans</a></li>
+    <li><a href="#classes">Classes</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+    <li><a href="#trainers">Trainers</a></li>
+    <li><a href="#tips">Tips</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#enroll">Join Now</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#enroll" class="btn-red" style="clip-path:none;border-radius:3px">Join Now</a>
+    <div class="hamburger" onclick="toggleMenu()" id="ham"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-content reveal">
+    <div class="hero-tag">Est. 2018 — Pakistan's #1 Gym</div>
+    <h1 class="hero-h">Forge<span>Your</span>Legend</h1>
+    <p class="hero-sub">Push beyond limits. Transform your body. Build strength that lasts a lifetime. Join thousands of members who chose IRONFORGE as their second home.</p>
+    <div class="hero-btns">
+      <a href="#enroll" class="btn-red">Start Today</a>
+      <a href="#plans" class="btn-outline-red">View Plans</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hstat-num" id="cnt-members">0<sup>+</sup></div><div class="hstat-label">Members</div></div>
+      <div><div class="hstat-num" id="cnt-trainers">0<sup>+</sup></div><div class="hstat-label">Trainers</div></div>
+      <div><div class="hstat-num">5<sup>★</sup></div><div class="hstat-label">Rating</div></div>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
+</section>
+
+<!-- PLANS -->
+<section id="plans">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-tag">Membership Plans</div>
+      <h2 class="sec-title">Choose Your <span>Plan</span></h2>
+      <p class="sec-sub">Flexible options for every fitness journey. No hidden fees. Cancel anytime.</p>
+    </div>
+    <div class="plans-grid">
+      <div class="plan-card reveal">
+        <div class="plan-name">Basic</div>
+        <div class="plan-price"><sup>₨</sup>2,500<sub>/month</sub></div>
+        <ul class="plan-features">
+          <li>Gym Floor Access</li><li>Cardio Equipment</li><li>Locker Room</li><li>1 Fitness Assessment</li><li>Open 6am – 10pm</li>
+        </ul>
+        <a href="#enroll" class="btn-outline-red" style="display:block;text-align:center">Get Started</a>
+      </div>
+      <div class="plan-card featured reveal">
+        <div class="plan-name">Standard</div>
+        <div class="plan-price"><sup>₨</sup>4,000<sub>/month</sub></div>
+        <ul class="plan-features">
+          <li>Everything in Basic</li><li>Group Classes (5/week)</li><li>Personal Trainer (2×/mo)</li><li>Diet Consultation</li><li>Swimming Pool</li><li>Guest Pass (1/mo)</li>
+        </ul>
+        <a href="#enroll" class="btn-red" style="display:block;text-align:center;clip-path:none;border-radius:3px">Get Started</a>
+      </div>
+      <div class="plan-card reveal">
+        <div class="plan-name">Premium</div>
+        <div class="plan-price"><sup>₨</sup>7,000<sub>/month</sub></div>
+        <ul class="plan-features">
+          <li>All-Inclusive Access</li><li>Unlimited Classes</li><li>Dedicated Trainer</li><li>Custom Diet Plan</li><li>Sauna & Spa</li><li>Priority Booking</li><li>Free Guest Passes</li>
+        </ul>
+        <a href="#enroll" class="btn-outline-red" style="display:block;text-align:center">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLASSES -->
+<section id="classes">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-tag">Group Classes</div>
+      <h2 class="sec-title">Train With <span>Intensity</span></h2>
+      <p class="sec-sub">Choose from 12+ expert-led classes. Every class is designed to push your limits and deliver real results.</p>
+    </div>
+    <div class="classes-grid">
+      <div class="class-card reveal"><div class="class-img" style="background:linear-gradient(135deg,#2a0a0a,#4a1515)"><span>🔥</span></div><div class="class-body"><div class="class-name">HIIT Blast</div><div class="class-meta"><span>⏱ 45 min</span><span>🔥 High</span><span>👥 20</span></div><div class="class-desc">High-intensity interval training designed to torch fat and boost metabolism. No equipment needed.</div></div></div>
+      <div class="class-card reveal"><div class="class-img" style="background:linear-gradient(135deg,#0a1a2a,#152a45)"><span>💪</span></div><div class="class-body"><div class="class-name">Power Lifting</div><div class="class-meta"><span>⏱ 60 min</span><span>🔥 Max</span><span>👥 12</span></div><div class="class-desc">Build raw strength and muscle mass with structured compound lifting programs.</div></div></div>
+      <div class="class-card reveal"><div class="class-img" style="background:linear-gradient(135deg,#0a2a1a,#154530)"><span>🧘</span></div><div class="class-body"><div class="class-name">Yoga & Flex</div><div class="class-meta"><span>⏱ 60 min</span><span>🔥 Low</span><span>👥 25</span></div><div class="class-desc">Improve flexibility, balance, and mental focus. Perfect for recovery days.</div></div></div>
+      <div class="class-card reveal"><div class="class-img" style="background:linear-gradient(135deg,#2a1a0a,#453015)"><span>🥊</span></div><div class="class-body"><div class="class-name">Boxing</div><div class="class-meta"><span>⏱ 50 min</span><span>🔥 High</span><span>👥 16</span></div><div class="class-desc">Learn proper boxing technique while getting the ultimate full-body cardio workout.</div></div></div>
+      <div class="class-card reveal"><div class="class-img" style="background:linear-gradient(135deg,#1a0a2a,#301545)"><span>🚴</span></div><div class="class-body"><div class="class-name">Spin Cycle</div><div class="class-meta"><span>⏱ 45 min</span><span>🔥 Med</span><span>👥 20</span></div><div class="class-desc">Music-driven indoor cycling class. Burns up to 600 calories in one session.</div></div></div>
+      <div class="class-card reveal"><div class="class-img" style="background:linear-gradient(135deg,#2a2a0a,#454515)"><span>🏃</span></div><div class="class-body"><div class="class-name">CrossFit</div><div class="class-meta"><span>⏱ 60 min</span><span>🔥 Max</span><span>👥 15</span></div><div class="class-desc">Varied functional movements performed at high intensity. True test of athletic fitness.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-tag">Weekly Schedule</div>
+      <h2 class="sec-title">Class <span>Timetable</span></h2>
+      <p class="sec-sub">Plan your week and book your spot in advance. Classes fill up fast!</p>
+    </div>
+    <div style="overflow-x:auto;margin-top:2rem">
+      <table class="schedule-table" id="public-schedule">
+        <thead><tr><th>Day</th><th>Morning</th><th>Afternoon</th><th>Evening</th></tr></thead>
+        <tbody id="schedule-public-body"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- TRAINERS -->
+<section id="trainers">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-tag">Expert Trainers</div>
+      <h2 class="sec-title">Meet Your <span>Coaches</span></h2>
+      <p class="sec-sub">Certified professionals dedicated to helping you reach every fitness goal you set.</p>
+    </div>
+    <div class="trainers-grid" id="trainers-public"></div>
+  </div>
+</section>
+
+<!-- WORKOUT TIPS -->
+<section id="tips">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-tag">Fitness Knowledge</div>
+      <h2 class="sec-title">Workout <span>Tips</span></h2>
+      <p class="sec-sub">Expert advice to maximize your training, nutrition, and recovery.</p>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card reveal"><div class="tip-icon">💧</div><div class="tip-title">Hydrate Properly</div><div class="tip-text">Drink at least 500ml water 30 minutes before training. During intense workouts, aim for 200ml every 15 minutes. Dehydration reduces performance by up to 30%.</div></div>
+      <div class="tip-card reveal"><div class="tip-icon">😴</div><div class="tip-title">Sleep is Training</div><div class="tip-text">Muscle is built during sleep, not in the gym. Aim for 7-9 hours per night. Poor sleep increases cortisol, breaking down muscle you've worked hard to build.</div></div>
+      <div class="tip-card reveal"><div class="tip-icon">🥩</div><div class="tip-title">Protein Timing</div><div class="tip-text">Consume 20-40g of protein within 30 minutes post-workout. This anabolic window is crucial for muscle repair and growth. Chicken, eggs, or whey protein are ideal.</div></div>
+      <div class="tip-card reveal"><div class="tip-icon">📈</div><div class="tip-title">Progressive Overload</div><div class="tip-text">Gradually increase weight, reps, or intensity each week. Your muscles only grow when challenged beyond their current capacity. Track your lifts religiously.</div></div>
+      <div class="tip-card reveal"><div class="tip-icon">🧘</div><div class="tip-title">Warm Up Properly</div><div class="tip-text">Spend 10 minutes on dynamic stretching before lifting. Cold muscles tear more easily. A proper warm-up improves performance and dramatically reduces injury risk.</div></div>
+      <div class="tip-card reveal"><div class="tip-icon">🗓️</div><div class="tip-title">Rest Day Strategy</div><div class="tip-text">Take 1-2 rest days per week. Use them for light walking, stretching, or yoga. Overtraining leads to plateaus and injuries. Recovery is part of the program.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-tag">Transformation Gallery</div>
+      <h2 class="sec-title">Before & <span>After</span></h2>
+      <p class="sec-sub">Real results from real members. These transformations took dedication, discipline, and IRONFORGE.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item wide reveal"><div class="gallery-placeholder"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Upload Before/After Photo</span></div><div class="gallery-label">Ahmed — -18kg in 4 months</div></div>
+      <div class="gallery-item reveal"><div class="gallery-placeholder"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Upload Photo</span></div><div class="gallery-label">Sara — +8kg Muscle</div></div>
+      <div class="gallery-item reveal"><div class="gallery-placeholder"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Upload Photo</span></div><div class="gallery-label">Gym Floor</div></div>
+      <div class="gallery-item reveal"><div class="gallery-placeholder"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Upload Photo</span></div><div class="gallery-label">Hassan — Body Recomp</div></div>
+      <div class="gallery-item reveal"><div class="gallery-placeholder"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Upload Photo</span></div><div class="gallery-label">Boxing Ring</div></div>
+      <div class="gallery-item reveal"><div class="gallery-placeholder"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Upload Photo</span></div><div class="gallery-label">Fatima — -12kg</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ENROLLMENT -->
+<section id="enroll">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-tag">Join The Family</div>
+      <h2 class="sec-title">Start Your <span>Journey</span></h2>
+    </div>
+    <div class="enroll-grid">
+      <div class="enroll-info reveal">
+        <h3>Ready to Transform?</h3>
+        <p>Take the first step. Fill out the enrollment form and our team will contact you within 24 hours to finalize your membership and schedule your free orientation session.</p>
+        <ul class="enroll-perks">
+          <li>Free first week trial</li>
+          <li>No enrollment fee</li>
+          <li>Personal fitness assessment</li>
+          <li>Dedicated trainer assigned</li>
+          <li>Free gym bag on joining</li>
+          <li>Access to all facilities</li>
+        </ul>
+      </div>
+      <div class="enroll-form reveal">
+        <div id="public-success" class="form-success-msg" style="margin-bottom:1rem">✅ Request received! We'll contact you within 24 hours.</div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-input" id="pub-name" placeholder="Ali Hassan"></div>
+          <div class="form-group"><label class="form-label">Phone</label><input type="text" class="form-input" id="pub-phone" placeholder="+92 300 1234567"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="pub-email" placeholder="ali@email.com"></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Plan</label>
+            <select class="form-select" id="pub-plan">
+              <option value="basic">Basic — ₨2,500/mo</option>
+              <option value="standard" selected>Standard — ₨4,000/mo</option>
+              <option value="premium">Premium — ₨7,000/mo</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Start Date</label><input type="date" class="form-input" id="pub-start"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Fitness Goal</label>
+          <select class="form-select" id="pub-goal">
+            <option>Weight Loss</option><option>Muscle Building</option><option>General Fitness</option><option>Athletic Training</option><option>Body Recomposition</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Message (optional)</label><textarea class="form-textarea" id="pub-msg" rows="3" placeholder="Any health conditions, specific requirements..."></textarea></div>
+        <button class="btn-red" style="width:100%;clip-path:none;border-radius:3px;padding:.85rem" onclick="publicEnroll()">ENROLL NOW — FREE FIRST WEEK →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="nav-logo">IRON<span>FORGE</span></span>
+        <p class="footer-tagline">Pakistan's most trusted gym. We don't just build bodies — we forge legends. Join us today and start your transformation.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="#plans">Membership Plans</a></li><li><a href="#classes">Classes</a></li><li><a href="#schedule">Schedule</a></li><li><a href="#enroll">Join Now</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Explore</div>
+        <ul class="footer-links">
+          <li><a href="#trainers">Trainers</a></li><li><a href="#tips">Workout Tips</a></li><li><a href="#gallery">Gallery</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Contact</div>
+        <ul class="footer-links">
+          <li><a href="#">📍 Lahore, Pakistan</a></li><li><a href="#">📞 +92 300 1234567</a></li><li><a href="#">📧 info@ironforge.pk</a></li><li><a href="#">🕐 6am – 11pm Daily</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 IRONFORGE GYM. All rights reserved.</div>
+      <button class="footer-admin-btn" onclick="openAdminLogin()">⚙ Admin Login</button>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /public-site -->
+
+<script>
+// ============ DATA STORE ============
+const PLANS_PRICE={basic:2500,standard:4000,premium:7000,annual:60000};
+
+function loadDB(){
+  try{
+    const d=localStorage.getItem('igym');
+    if(d)return JSON.parse(d);
+  }catch{}
+  return {
+    members:[
+      {id:1,name:'Ali Hassan',phone:'0300-1111111',email:'ali@g.com',gender:'Male',dob:'1995-03-15',plan:'premium',start:'2025-01-01',expiry:'2025-04-30',trainer:'Ahmed Khan',notes:'Weight loss goal',fee:'paid'},
+      {id:2,name:'Sara Malik',phone:'0300-2222222',email:'sara@g.com',gender:'Female',dob:'1998-07-22',plan:'standard',start:'2025-02-01',expiry:'2025-04-08',trainer:'Zara Akhtar',notes:'Toning',fee:'pending'},
+      {id:3,name:'Usman Ali',phone:'0300-3333333',email:'usman@g.com',gender:'Male',dob:'1993-11-05',plan:'basic',start:'2025-03-01',expiry:'2025-04-12',trainer:'',notes:'',fee:'paid'},
+      {id:4,name:'Fatima Shah',phone:'0300-4444444',email:'fatima@g.com',gender:'Female',dob:'2000-01-30',plan:'premium',start:'2025-01-15',expiry:'2025-05-15',trainer:'Ahmed Khan',notes:'Athletic training',fee:'paid'},
+      {id:5,name:'Hassan Raza',phone:'0300-5555555',email:'hassan@g.com',gender:'Male',dob:'1990-09-18',plan:'standard',start:'2025-02-15',expiry:'2025-04-09',trainer:'Bilal Chaudhry',notes:'Bulk',fee:'overdue'},
+    ],
+    trainers:[
+      {id:1,name:'Ahmed Khan',spec:'Strength & Conditioning',phone:'0300-7777777',exp:7,bio:'Certified strength coach with national powerlifting background.',status:'active'},
+      {id:2,name:'Zara Akhtar',spec:'Yoga & Women Fitness',phone:'0300-8888888',exp:5,bio:'Specialized in women\'s fitness, flexibility and body transformation.',status:'active'},
+      {id:3,name:'Bilal Chaudhry',spec:'CrossFit & HIIT',phone:'0300-9999999',exp:4,bio:'CrossFit Level 2 certified. Passionate about functional fitness.',status:'active'},
+      {id:4,name:'Kamran Baig',spec:'Boxing & MMA',phone:'0300-6666666',exp:8,bio:'Ex-professional boxer. Trains combat athletes and fitness enthusiasts.',status:'active'},
+    ],
+    schedule:[
+      {id:1,day:'Monday',time:'07:00',name:'HIIT Blast',trainer:'Bilal Chaudhry',duration:45,cap:20,booked:14},
+      {id:2,day:'Monday',time:'18:00',name:'Power Lifting',trainer:'Ahmed Khan',duration:60,cap:12,booked:10},
+      {id:3,day:'Tuesday',time:'09:00',name:'Yoga & Flex',trainer:'Zara Akhtar',duration:60,cap:25,booked:18},
+      {id:4,day:'Wednesday',time:'07:00',name:'Boxing',trainer:'Kamran Baig',duration:50,cap:16,booked:12},
+      {id:5,day:'Thursday',time:'18:00',name:'CrossFit',trainer:'Bilal Chaudhry',duration:60,cap:15,booked:9},
+      {id:6,day:'Friday',time:'07:00',name:'Spin Cycle',trainer:'Zara Akhtar',duration:45,cap:20,booked:16},
+      {id:7,day:'Saturday',time:'10:00',name:'HIIT Blast',trainer:'Bilal Chaudhry',duration:45,cap:20,booked:20},
+    ],
+    equipment:[
+      {id:1,name:'Treadmill',qty:8,status:'Working',date:'2023-01-10',maint:'2025-05-01',notes:'All units serviced Jan 2025'},
+      {id:2,name:'Dumbbells Set',qty:15,status:'Working',date:'2022-06-15',maint:'2025-06-01',notes:'2kg - 50kg range'},
+      {id:3,name:'Bench Press',qty:5,status:'Working',date:'2022-06-15',maint:'2025-04-20',notes:''},
+      {id:4,name:'Rowing Machine',qty:3,status:'Maintenance',date:'2023-03-01',maint:'2025-04-10',notes:'Chain replacement needed'},
+      {id:5,name:'Leg Press',qty:2,status:'Working',date:'2023-08-20',maint:'2025-07-01',notes:''},
+      {id:6,name:'Battle Ropes',qty:4,status:'Out of Order',date:'2022-11-05',maint:'2025-04-15',notes:'Needs replacement'},
+    ],
+    dietPlans:[
+      {id:1,name:'Fat Loss Plan A',goal:'Weight Loss',cal:1600,prot:140,details:'Breakfast: Oats + 3 eggs\nLunch: Chicken + salad\nDinner: Fish + veggies',member:'Sara Malik'},
+      {id:2,name:'Muscle Gain Plan',goal:'Muscle Gain',cal:3000,prot:200,details:'Breakfast: 5 eggs + oats + shake\nLunch: Rice + chicken 300g\nDinner: Steak + potato',member:'Usman Ali'},
+    ],
+    bookings:[
+      {id:1,member:'Ali Hassan',cls:'HIIT Blast',date:'2025-04-08',time:'07:00',status:'confirmed'},
+      {id:2,member:'Sara Malik',cls:'Yoga & Flex',date:'2025-04-09',time:'09:00',status:'confirmed'},
+      {id:3,member:'Fatima Shah',cls:'Power Lifting',date:'2025-04-08',time:'18:00',status:'pending'},
+    ],
+    feeLog:[
+      {member:'Ali Hassan',plan:'premium',amount:7000,date:'2025-04-01',method:'Cash',status:'paid'},
+      {member:'Sara Malik',plan:'standard',amount:4000,date:'2025-04-01',method:'Bank Transfer',status:'pending'},
+      {member:'Hassan Raza',plan:'standard',amount:4000,date:'2025-03-01',method:'Cash',status:'overdue'},
+    ],
+    nextId:10
+  };
+}
+
+let DB=loadDB();
+function saveDB(){localStorage.setItem('igym',JSON.stringify(DB));}
+
+// ============ HELPERS ============
+const today=()=>new Date().toISOString().split('T')[0];
+function daysUntil(d){return Math.ceil((new Date(d)-new Date())/(864e5));}
+function planLabel(p){return{basic:'Basic',standard:'Standard',premium:'Premium',annual:'Annual VIP'}[p]||p;}
+function fmtMoney(n){return n>=1000?'₨'+(n/1000).toFixed(n%1000===0?0:1)+'K':'₨'+n;}
+
+// ============ ADMIN AUTH ============
+function openAdminLogin(){document.getElementById('admin-login-screen').classList.add('show');}
+function closeLogin(){document.getElementById('admin-login-screen').classList.remove('show');}
+function doAdminLogin(){
+  if(document.getElementById('admin-user').value==='admin'&&document.getElementById('admin-pass').value==='gym123'){
+    closeLogin();
+    document.getElementById('public-site').style.display='none';
+    const aa=document.getElementById('admin-app');
+    aa.classList.add('show');aa.style.display='flex';
+    document.getElementById('admin-date').textContent=new Date().toLocaleDateString('en-PK',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+    renderAdminAll();
+  }else{document.getElementById('login-err').style.display='block';}
+}
+function doLogout(){document.getElementById('admin-app').classList.remove('show');document.getElementById('admin-app').style.display='none';document.getElementById('public-site').style.display='block';}
+function backToSite(){doLogout();}
+
+// ============ ADMIN TABS ============
+function showTab(id,el){
+  document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.admin-nav-item').forEach(i=>i.classList.remove('active'));
+  const sec=document.getElementById('tab-'+id);
+  if(sec)sec.classList.add('active');
+  if(el)el.classList.add('active');
+  if(id==='members')renderMembers();
+  if(id==='fees')renderFees('all');
+  if(id==='trainers')renderTrainers();
+  if(id==='schedule-admin')renderScheduleAdmin();
+  if(id==='diet')renderDiet();
+  if(id==='equipment')renderEquipment();
+  if(id==='revenue')renderRevenue();
+  if(id==='alerts')renderAlerts();
+  if(id==='bookings')renderBookings();
+}
+
+function renderAdminAll(){
+  renderDashboard();
+  populateTrainerDropdowns();
+  populateMemberDropdowns();
+}
+
+// ============ DASHBOARD ============
+function renderDashboard(){
+  const total=DB.members.length;
+  const active=DB.members.filter(m=>daysUntil(m.expiry)>0).length;
+  const expiring=DB.members.filter(m=>{const d=daysUntil(m.expiry);return d>=0&&d<=7;}).length;
+  const trainerCount=DB.trainers.filter(t=>t.status==='active').length;
+  const monthRev=DB.members.filter(m=>m.fee==='paid').reduce((s,m)=>s+(PLANS_PRICE[m.plan]||0),0);
+  document.getElementById('s-total').textContent=total;
+  document.getElementById('s-active').textContent=active;
+  document.getElementById('s-expiring').textContent=expiring;
+  document.getElementById('s-trainers').textContent=trainerCount;
+  document.getElementById('s-revenue').textContent=fmtMoney(monthRev);
+  // Recent 5
+  const tbody=document.getElementById('dashboard-recent');
+  tbody.innerHTML=DB.members.slice(-5).reverse().map(m=>{
+    const days=daysUntil(m.expiry);
+    const st=days<0?'<span class="badge badge-red">Expired</span>':days<=7?'<span class="badge badge-orange">Expiring</span>':'<span class="badge badge-green">Active</span>';
+    return`<tr><td>${m.name}</td><td><span class="badge badge-blue">${planLabel(m.plan)}</span></td><td>${m.start}</td><td>${m.expiry}</td><td>${st}</td><td><span class="badge ${m.fee==='paid'?'badge-green':m.fee==='overdue'?'badge-red':'badge-orange'}">${m.fee}</span></td></tr>`;
+  }).join('');
+  // Public counters
+  document.getElementById('cnt-members').textContent=total+'+';
+  document.getElementById('cnt-trainers').textContent=trainerCount+'+';
+}
+
+// ============ ALERTS ============
+function renderAlerts(){
+  const el=document.getElementById('alerts-list');
+  const expiring=DB.members.filter(m=>{const d=daysUntil(m.expiry);return d>=0&&d<=7;});
+  if(!expiring.length){el.innerHTML='<p style="color:var(--text3);font-size:.88rem">No memberships expiring in the next 7 days. ✅</p>';return;}
+  el.innerHTML=expiring.sort((a,b)=>daysUntil(a.expiry)-daysUntil(b.expiry)).map(m=>{
+    const d=daysUntil(m.expiry);
+    return`<div class="alert-card"><div class="alert-info"><div class="alert-icon">⚠️</div><div><div class="alert-name">${m.name}</div><div class="alert-detail">${planLabel(m.plan)} — ${m.phone} — Expiry: ${m.expiry}</div></div></div><div><div class="alert-days">${d}<span> days left</span></div></div></div>`;
+  }).join('');
+}
+
+// ============ REVENUE ============
+function renderRevenue(){
+  const paid=DB.members.filter(m=>m.fee==='paid');
+  const pending=DB.members.filter(m=>m.fee!=='paid');
+  const monthRev=paid.reduce((s,m)=>s+(PLANS_PRICE[m.plan]||0),0);
+  const pendingRev=pending.reduce((s,m)=>s+(PLANS_PRICE[m.plan]||0),0);
+  document.getElementById('rev-today').textContent=(monthRev/30).toFixed(0);
+  document.getElementById('rev-month').textContent=monthRev.toLocaleString();
+  document.getElementById('rev-total').textContent=(monthRev*4).toLocaleString();
+  document.getElementById('rev-pending').textContent=pendingRev.toLocaleString();
+  document.getElementById('rev-change').textContent='+12% vs last month';
+  // Chart
+  const months=['Jan','Feb','Mar','Apr','May','Jun'];
+  const vals=[45000,52000,48000,monthRev,0,0];
+  const max=Math.max(...vals.filter(Boolean));
+  document.getElementById('rev-chart').innerHTML=months.map((m,i)=>`
+    <div class="bar-col">
+      <div class="bar-val">${vals[i]?fmtMoney(vals[i]):''}</div>
+      <div class="bar-fill" style="height:${vals[i]?Math.round((vals[i]/max)*120):0}px"></div>
+      <div class="bar-label">${m}</div>
+    </div>`).join('');
+  // Log
+  document.getElementById('revenue-log').innerHTML=DB.feeLog.map(f=>`
+    <tr><td>${f.member}</td><td>${planLabel(f.plan)}</td><td>₨${f.amount.toLocaleString()}</td><td>${f.date}</td><td>${f.method}</td><td><span class="badge ${f.status==='paid'?'badge-green':f.status==='overdue'?'badge-red':'badge-orange'}">${f.status}</span></td></tr>`).join('');
+}
+
+// ============ MEMBERS ============
+function renderMembers(filter=''){
+  const list=filter?DB.members.filter(m=>m.name.toLowerCase().includes(filter.toLowerCase())||m.phone.includes(filter)):DB.members;
+  document.getElementById('members-tbody').innerHTML=list.map((m,i)=>{
+    const d=daysUntil(m.expiry);
+    const st=d<0?'badge-red':d<=7?'badge-orange':'badge-green';
+    const stl=d<0?'Expired':d<=7?`${d}d left`:'Active';
+    return`<tr><td>${i+1}</td><td><strong>${m.name}</strong></td><td>${m.phone}</td><td><span class="badge badge-blue">${planLabel(m.plan)}</span></td><td>${m.start}</td><td>${m.expiry}</td><td><span class="badge ${m.fee==='paid'?'badge-green':m.fee==='overdue'?'badge-red':'badge-orange'}">${m.fee}</span></td>
+    <td><div class="tbl-actions"><button class="btn-tbl btn-tbl-edit" onclick="markPaid(${m.id})">Paid</button><button class="btn-tbl btn-tbl-del" onclick="deleteMember(${m.id})">Del</button></div></td></tr>`;
+  }).join('');
+}
+function searchMembers(v){renderMembers(v);}
+function markPaid(id){const m=DB.members.find(x=>x.id===id);if(m){m.fee='paid';saveDB();renderMembers();renderDashboard();}}
+function deleteMember(id){if(!confirm('Delete this member?'))return;DB.members=DB.members.filter(x=>x.id!==id);saveDB();renderMembers();renderDashboard();}
+
+// ============ ENROLL ============
+function enrollMember(){
+  const name=document.getElementById('m-name').value.trim();
+  const phone=document.getElementById('m-phone').value.trim();
+  if(!name||!phone){alert('Please fill in at least name and phone.');return;}
+  const start=document.getElementById('m-start').value||today();
+  const plan=document.getElementById('m-plan').value;
+  const expDate=new Date(start);
+  if(plan==='annual')expDate.setFullYear(expDate.getFullYear()+1);
+  else expDate.setMonth(expDate.getMonth()+1);
+  const m={id:DB.nextId++,name,phone,email:document.getElementById('m-email').value,gender:document.getElementById('m-gender').value,dob:document.getElementById('m-dob').value,plan,start,expiry:expDate.toISOString().split('T')[0],trainer:document.getElementById('m-trainer').value,notes:document.getElementById('m-notes').value,fee:'pending'};
+  DB.members.push(m);
+  DB.feeLog.push({member:name,plan,amount:PLANS_PRICE[plan]||0,date:start,method:'Cash',status:'pending'});
+  saveDB();
+  document.getElementById('enroll-success').style.display='block';
+  setTimeout(()=>document.getElementById('enroll-success').style.display='none',3000);
+  clearEnrollForm();renderDashboard();renderMembers();populateMemberDropdowns();
+}
+function clearEnrollForm(){['m-name','m-phone','m-email','m-dob','m-notes'].forEach(id=>document.getElementById(id).value='');document.getElementById('m-plan').value='basic';}
+
+// ============ FEES ============
+function renderFees(filter){
+  const list=filter==='all'?DB.members:DB.members.filter(m=>m.fee===filter);
+  document.getElementById('fees-tbody').innerHTML=list.map(m=>{
+    const due=new Date(m.expiry);due.setDate(due.getDate()-30);
+    return`<tr><td><strong>${m.name}</strong><br><small style="color:var(--text3)">${m.phone}</small></td><td>${planLabel(m.plan)}</td><td>₨${(PLANS_PRICE[m.plan]||0).toLocaleString()}</td><td>${due.toISOString().split('T')[0]}</td>
+    <td><span class="badge ${m.fee==='paid'?'badge-green':m.fee==='overdue'?'badge-red':'badge-orange'}">${m.fee}</span></td>
+    <td><div class="tbl-actions"><button class="btn-tbl btn-tbl-edit" onclick="collectFee(${m.id})">Collect</button><button class="btn-tbl btn-tbl-view" onclick="markOverdue(${m.id})">Overdue</button></div></td></tr>`;
+  }).join('');
+}
+function filterFees(v){renderFees(v);}
+function collectFee(id){const m=DB.members.find(x=>x.id===id);if(m){m.fee='paid';const log=DB.feeLog.find(l=>l.member===m.name&&l.status!=='paid');if(log)log.status='paid';saveDB();renderFees('all');renderDashboard();}}
+function markOverdue(id){const m=DB.members.find(x=>x.id===id);if(m){m.fee='overdue';saveDB();renderFees('all');}}
+
+// ============ TRAINERS ============
+function renderTrainers(){
+  document.getElementById('trainers-tbody').innerHTML=DB.trainers.map((t,i)=>{
+    const members=DB.members.filter(m=>m.trainer===t.name).length;
+    return`<tr><td>${i+1}</td><td><strong>${t.name}</strong></td><td>${t.spec}</td><td>${t.phone}</td><td>${t.exp} yrs</td><td>${members}</td><td><span class="badge ${t.status==='active'?'badge-green':'badge-red'}">${t.status}</span></td>
+    <td><div class="tbl-actions"><button class="btn-tbl btn-tbl-del" onclick="deleteTrainer(${t.id})">Del</button></div></td></tr>`;
+  }).join('');
+}
+function addTrainer(){
+  const name=document.getElementById('tr-name').value.trim();if(!name)return;
+  DB.trainers.push({id:DB.nextId++,name,spec:document.getElementById('tr-spec').value,phone:document.getElementById('tr-phone').value,exp:parseInt(document.getElementById('tr-exp').value)||0,bio:document.getElementById('tr-bio').value,status:'active'});
+  saveDB();renderTrainers();renderPublicTrainers();populateTrainerDropdowns();renderDashboard();
+  ['tr-name','tr-spec','tr-phone','tr-bio'].forEach(id=>document.getElementById(id).value='');
+}
+function deleteTrainer(id){if(!confirm('Delete trainer?'))return;DB.trainers=DB.trainers.filter(t=>t.id!==id);saveDB();renderTrainers();renderPublicTrainers();renderDashboard();}
+
+// ============ SCHEDULE ============
+function renderScheduleAdmin(){
+  const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const sorted=[...DB.schedule].sort((a,b)=>days.indexOf(a.day)-days.indexOf(b.day)||a.time.localeCompare(b.time));
+  document.getElementById('schedule-tbody').innerHTML=sorted.map(s=>`
+    <tr><td><span class="badge badge-blue">${s.day}</span></td><td>${s.time}</td><td><strong>${s.name}</strong></td><td>${s.trainer||'TBD'}</td><td>${s.duration} min</td><td>${s.cap}</td><td>${s.booked}/${s.cap}</td>
+    <td><button class="btn-tbl btn-tbl-del" onclick="deleteSchedule(${s.id})">Del</button></td></tr>`).join('');
+}
+function addSchedule(){
+  const name=document.getElementById('sc-name').value.trim();if(!name)return;
+  DB.schedule.push({id:DB.nextId++,day:document.getElementById('sc-day').value,time:document.getElementById('sc-time').value||'08:00',name,trainer:document.getElementById('sc-trainer').value,duration:parseInt(document.getElementById('sc-duration').value)||60,cap:parseInt(document.getElementById('sc-cap').value)||20,booked:0});
+  saveDB();renderScheduleAdmin();renderPublicSchedule();
+  document.getElementById('sc-name').value='';
+}
+function deleteSchedule(id){DB.schedule=DB.schedule.filter(s=>s.id!==id);saveDB();renderScheduleAdmin();renderPublicSchedule();}
+
+// ============ DIET ============
+function renderDiet(){
+  document.getElementById('diet-tbody').innerHTML=DB.dietPlans.map((d,i)=>`
+    <tr><td>${i+1}</td><td><strong>${d.name}</strong></td><td><span class="badge badge-gold">${d.goal}</span></td><td>${d.cal} kcal</td><td>${d.prot}g</td><td>${d.member||'—'}</td>
+    <td><button class="btn-tbl btn-tbl-del" onclick="deleteDiet(${d.id})">Del</button></td></tr>`).join('');
+}
+function addDietPlan(){
+  const name=document.getElementById('dp-name').value.trim();if(!name)return;
+  DB.dietPlans.push({id:DB.nextId++,name,goal:document.getElementById('dp-goal').value,cal:parseInt(document.getElementById('dp-cal').value)||0,prot:parseInt(document.getElementById('dp-prot').value)||0,details:document.getElementById('dp-details').value,member:document.getElementById('dp-member').value});
+  saveDB();renderDiet();
+  ['dp-name','dp-cal','dp-prot','dp-details'].forEach(id=>document.getElementById(id).value='');
+}
+function deleteDiet(id){DB.dietPlans=DB.dietPlans.filter(d=>d.id!==id);saveDB();renderDiet();}
+
+// ============ EQUIPMENT ============
+function renderEquipment(){
+  document.getElementById('equip-tbody').innerHTML=DB.equipment.map((e,i)=>{
+    const sc=e.status==='Working'?'badge-green':e.status==='Maintenance'?'badge-orange':'badge-red';
+    return`<tr><td>${i+1}</td><td><strong>${e.name}</strong></td><td>${e.qty}</td><td><span class="badge ${sc}">${e.status}</span></td><td>${e.date||'—'}</td><td>${e.maint||'—'}</td><td style="color:var(--text3);font-size:.78rem">${e.notes||'—'}</td>
+    <td><button class="btn-tbl btn-tbl-del" onclick="deleteEquipment(${e.id})">Del</button></td></tr>`;
+  }).join('');
+}
+function addEquipment(){
+  const name=document.getElementById('eq-name').value.trim();if(!name)return;
+  DB.equipment.push({id:DB.nextId++,name,qty:parseInt(document.getElementById('eq-qty').value)||1,status:document.getElementById('eq-status').value,date:document.getElementById('eq-date').value,maint:document.getElementById('eq-maint').value,notes:document.getElementById('eq-notes').value});
+  saveDB();renderEquipment();
+  ['eq-name','eq-qty','eq-notes'].forEach(id=>document.getElementById(id).value='');
+}
+function deleteEquipment(id){DB.equipment=DB.equipment.filter(e=>e.id!==id);saveDB();renderEquipment();}
+
+// ============ BOOKINGS ============
+function renderBookings(){
+  document.getElementById('bookings-tbody').innerHTML=DB.bookings.map((b,i)=>`
+    <tr><td>${i+1}</td><td>${b.member}</td><td>${b.cls}</td><td>${b.date}</td><td>${b.time}</td>
+    <td><span class="badge ${b.status==='confirmed'?'badge-green':'badge-orange'}">${b.status}</span></td>
+    <td><div class="tbl-actions"><button class="btn-tbl btn-tbl-edit" onclick="confirmBooking(${b.id})">Confirm</button><button class="btn-tbl btn-tbl-del" onclick="deleteBooking(${b.id})">Del</button></div></td></tr>`).join('');
+}
+function confirmBooking(id){const b=DB.bookings.find(x=>x.id===id);if(b){b.status='confirmed';saveDB();renderBookings();}}
+function deleteBooking(id){DB.bookings=DB.bookings.filter(x=>x.id!==id);saveDB();renderBookings();}
+
+// ============ POPULATE DROPDOWNS ============
+function populateTrainerDropdowns(){
+  const opts='<option value="">No Trainer</option>'+DB.trainers.filter(t=>t.status==='active').map(t=>`<option>${t.name}</option>`).join('');
+  ['m-trainer','sc-trainer'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=(id==='sc-trainer'?'<option value="">Assign Trainer</option>':'')+DB.trainers.filter(t=>t.status==='active').map(t=>`<option>${t.name}</option>`).join('');});
+}
+function populateMemberDropdowns(){
+  const opts='<option value="">Select Member (optional)</option>'+DB.members.map(m=>`<option>${m.name}</option>`).join('');
+  const el=document.getElementById('dp-member');if(el)el.innerHTML=opts;
+}
+
+// ============ PUBLIC WEBSITE RENDERS ============
+function renderPublicTrainers(){
+  const emojis=['💪','🏋️','🥊','🧘'];
+  document.getElementById('trainers-public').innerHTML=DB.trainers.filter(t=>t.status==='active').map((t,i)=>`
+    <div class="trainer-card reveal">
+      <div class="trainer-img">${emojis[i%emojis.length]}<div class="trainer-img-overlay"></div></div>
+      <div class="trainer-body">
+        <div class="trainer-name">${t.name}</div>
+        <div class="trainer-spec">${t.spec}</div>
+        <div class="trainer-bio">${t.bio||'Certified fitness professional with '+t.exp+' years experience.'}</div>
+        <div style="margin-top:.75rem;font-size:.78rem;color:var(--gold)">⭐ ${t.exp}+ Years Experience</div>
+      </div>
+    </div>`).join('');
+  observeReveal();
+}
+
+function renderPublicSchedule(){
+  const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const byDay={};
+  days.forEach(d=>byDay[d]=[]);
+  DB.schedule.forEach(s=>{if(byDay[s.day])byDay[s.day].push(s);});
+  const timeSlots={morning:[],afternoon:[],evening:[]};
+  document.getElementById('schedule-public-body').innerHTML=days.map(day=>{
+    const items=byDay[day];
+    const morning=items.filter(s=>s.time<'12:00');
+    const afternoon=items.filter(s=>s.time>='12:00'&&s.time<'17:00');
+    const evening=items.filter(s=>s.time>='17:00');
+    const cell=arr=>arr.length?arr.map(s=>`<div><span class="time-badge">${s.time}</span><br><span class="class-badge">${s.name}</span><br><span class="trainer-badge">👤 ${s.trainer||'TBD'}</span></div>`).join(''):'<span style="color:var(--text3);font-size:.78rem">—</span>';
+    return`<tr><td style="font-family:var(--font);font-weight:800;color:var(--text)">${day}</td><td>${cell(morning)}</td><td>${cell(afternoon)}</td><td>${cell(evening)}</td></tr>`;
+  }).join('');
+}
+
+// ============ PUBLIC ENROLLMENT ============
+function publicEnroll(){
+  const name=document.getElementById('pub-name').value.trim();
+  const phone=document.getElementById('pub-phone').value.trim();
+  if(!name||!phone){alert('Please enter your name and phone number.');return;}
+  const start=document.getElementById('pub-start').value||today();
+  const plan=document.getElementById('pub-plan').value;
+  const expDate=new Date(start);
+  expDate.setMonth(expDate.getMonth()+1);
+  DB.members.push({id:DB.nextId++,name,phone,email:document.getElementById('pub-email').value,gender:'',dob:'',plan,start,expiry:expDate.toISOString().split('T')[0],trainer:'',notes:document.getElementById('pub-goal').value+' — '+document.getElementById('pub-msg').value,fee:'pending'});
+  DB.bookings.push({id:DB.nextId++,member:name,cls:'Orientation',date:start,time:'09:00',status:'pending'});
+  saveDB();
+  document.getElementById('public-success').style.display='block';
+  ['pub-name','pub-phone','pub-email','pub-msg'].forEach(id=>document.getElementById(id).value='');
+  renderDashboard();populateMemberDropdowns();
+}
+
+// ============ BOOK CLASS ============
+function bookClass(clsName,time){
+  const name=prompt('Enter your name to book '+clsName+':');
+  if(!name)return;
+  DB.bookings.push({id:DB.nextId++,member:name,cls:clsName,date:today(),time,status:'pending'});
+  const sc=DB.schedule.find(s=>s.name===clsName);if(sc&&sc.booked<sc.cap)sc.booked++;
+  saveDB();alert('Booking request sent! We\'ll confirm shortly.');
+}
+
+// ============ MOBILE MENU ============
+function toggleMenu(){document.getElementById('nav-menu').classList.toggle('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('#main-nav'))document.getElementById('nav-menu').classList.remove('open');});
+
+// ============ SCROLL REVEAL ============
+function observeReveal(){
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el=>{
+    new IntersectionObserver(([entry])=>{if(entry.isIntersecting){entry.target.classList.add('visible');}},{threshold:.1}).observe(el);
+  });
+}
+
+// ============ COUNTER ANIM ============
+function animCount(el,target){
+  let v=0;const step=Math.ceil(target/50);
+  const t=setInterval(()=>{v=Math.min(v+step,target);el.textContent=v+(el.textContent.includes('+')&&v===target?'+':'');if(v>=target)clearInterval(t);},30);
+}
+
+// ============ INIT ============
+window.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('pub-start').value=today();
+  document.getElementById('m-start').value=today();
+  renderPublicTrainers();
+  renderPublicSchedule();
+  observeReveal();
+  // Counter on hero intersect
+  const heroObs=new IntersectionObserver(([e])=>{
+    if(e.isIntersecting){
+      animCount(document.getElementById('cnt-members'),DB.members.length);
+      animCount(document.getElementById('cnt-trainers'),DB.trainers.filter(t=>t.status==='active').length);
+      heroObs.disconnect();
+    }
+  },{threshold:.3});
+  heroObs.observe(document.getElementById('hero'));
+  // Nav scroll effect
+  window.addEventListener('scroll',()=>{
+    const nav=document.getElementById('main-nav');
+    if(window.scrollY>60)nav.style.boxShadow='0 4px 30px rgba(0,0,0,0.5)';
+    else nav.style.boxShadow='none';
+    observeReveal();
+  });
+  renderDashboard();
+});
+</script>
+</body>
+</html>
